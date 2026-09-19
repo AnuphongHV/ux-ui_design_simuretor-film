@@ -277,13 +277,20 @@ dialog::backdrop{background:rgba(10,10,14,.55); backdrop-filter:blur(3px)}
   .spec .t{font-size:13.5px}
   .picker-col{grid-template-columns:1fr 1fr; gap:10px}
   .picker{padding:11px}
+  .swatch-meta .c{font-size:10px}
+  .swatch-meta .v{font-size:9px}
   .swatches{gap:5px}
   .swatch-chip{height:34px}
   .compare-foot .pill-body{font-size:11.5px; padding:0 10px}
 }
+@media (max-width:560px){
+  .picker-col{grid-template-columns:1fr}
+  .swatch-meta .c{font-size:11px}
+  .swatch-meta .v{font-size:9.5px}
+  .swatch-chip{height:40px}
+}
 @media (max-width:430px){
   .need-grid{grid-template-columns:1fr}
-  .picker-col{grid-template-columns:1fr}
   .spec-row{grid-template-columns:1fr}
   .view-tabs{grid-template-columns:1fr}
 }
