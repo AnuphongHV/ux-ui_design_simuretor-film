@@ -3,8 +3,19 @@
 เว็บไซต์ตัวอย่าง (frontend demo) สำหรับนำเสนอฟังก์ชัน UX/UI ให้ลูกค้าดู
 สร้างตาม mockup ที่ให้มา รองรับทั้ง **Desktop / Tablet / Mobile**
 
+## 🔗 เปิดดูเว็บตัวอย่าง
+
+**https://anuphonghv.github.io/ux-ui_design_simuretor-film/**
+
+เว็บ deploy อัตโนมัติผ่าน GitHub Pages ทุกครั้งที่ push ขึ้นแบรนช์นี้
+(ดูขั้นตอนได้ที่แท็บ Actions ของ repo)
+
+---
+
 เปิดใช้งานได้ทันทีโดยไม่ต้อง build — เป็น HTML + CSS + JavaScript ล้วน ไม่มี framework
 และไม่มีการเรียก API ใด ๆ
+
+รันในเครื่องตัวเอง:
 
 ```bash
 # เปิดด้วย local server ตัวไหนก็ได้
