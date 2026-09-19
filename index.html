@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VIC Film Studio — จำลองฟิล์มบนรถของคุณ</title>
+<meta name="description" content="ตัวอย่างหน้าเว็บจำลองการติดฟิล์มกรองแสง เลือกความเข้ม เทียบมุมมองภายนอก/ภายใน และดู Price List ทั้ง 6 ซีรี่ส์">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body id="top">
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="#top">VIC Film Studio</a>
+    <nav class="head-nav" aria-label="ไปยังขั้นตอน">
+      <a href="#step1">1. ความต้องการ</a>
+      <a href="#step2">2. รถของคุณ</a>
+      <a href="#step3">3. ดูบนรถ</a>
+      <a href="#step4">4. สรุปชุดฟิล์ม</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <h1>เลือกฟิล์มด้วยตาของคุณเอง<br>ก่อนตัดสินใจติดจริง</h1>
+    <p>บอกสิ่งที่คุณให้ความสำคัญ เลือกรถและตำแหน่งที่จะติด แล้วลองสลับความเข้มดูทั้งมุมมองภายนอกและภายในรถ</p>
+  </section>
+
+  <!-- ══ ขั้นที่ 1 ══════════════════════════════════════════════════ -->
+  <section class="step" id="step1" aria-labelledby="h-step1">
+    <div class="panel">
+      <div class="step-head">
+        <h2 id="h-step1"><span class="num">1</span> คุณอยากได้ฟิล์มแบบไหน?</h2>
+        <span class="sub">เลือกสิ่งที่คุณให้ความสำคัญที่สุด</span>
+      </div>
+
+      <div class="need-grid" id="needGrid" role="group" aria-label="ความต้องการหลัก"></div>
+
+      <div class="reco">
+        <p class="reco-label">แนะนำ<br>สำหรับคุณ</p>
+        <div class="reco-cards">
+          <div class="reco-card">
+            <span class="k">ควรติดบานหน้า</span>
+            <span class="v" id="recoFrontDensity">ความเข้มฟิล์มแนะนำ —</span>
+            <span class="m" id="recoFrontModel">รุ่นฟิล์มแนะนำ —</span>
+          </div>
+          <div class="reco-card">
+            <span class="k">ควรติดรอบคัน</span>
+            <span class="v" id="recoRearDensity">ความเข้มฟิล์มแนะนำ —</span>
+            <span class="m" id="recoRearModel">รุ่นฟิล์มแนะนำ —</span>
+          </div>
+        </div>
+        <button type="button" class="btn btn-ghost" id="applyReco">ใช้ชุดที่แนะนำ</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ขั้นที่ 2 ══════════════════════════════════════════════════ -->
+  <section class="step" id="step2" aria-labelledby="h-step2">
+    <div class="panel">
+      <div class="step-head">
+        <h2 id="h-step2"><span class="num">2</span> รถของคุณและตำแหน่งที่จะติด</h2>
+        <span class="sub">ใช้คำนวณราคาและพรีวิว</span>
+      </div>
+
+      <div class="car-grid">
+        <div>
+          <label class="field-label" for="carType">ประเภท / ขนาดรถ</label>
+          <select class="field" id="carType"></select>
+        </div>
+
+        <fieldset class="car-pos" style="border:0;padding:0;margin:0;min-width:0">
+          <legend class="field-label" style="padding:0">ตำแหน่งที่จะติดฟิล์ม</legend>
+          <div class="seg">
+            <label class="pill"><input type="radio" name="pos" value="front"><span class="pill-body">เฉพาะบานหน้า</span></label>
+            <label class="pill"><input type="radio" name="pos" value="around"><span class="pill-body">รอบคัน</span></label>
+            <label class="pill"><input type="radio" name="pos" value="both" checked><span class="pill-body">บานหน้า + รอบคัน</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset style="border:0;padding:0;margin:0;min-width:0">
+          <legend class="field-label" style="padding:0">ซันรูฟ</legend>
+          <div class="seg sunroof">
+            <label class="pill"><input type="radio" name="sunroof" value="no" checked><span class="pill-body">ไม่มีซันรูฟ</span></label>
+            <label class="pill"><input type="radio" name="sunroof" value="yes"><span class="pill-body">มีซันรูฟ</span></label>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ขั้นที่ 3 — สตูดิโอจำลอง ═══════════════════════════════════ -->
+  <section class="studio" id="step3" aria-labelledby="h-step3">
+    <p class="studio-kicker">VIC Film Studio</p>
+    <h2 id="h-step3">ดูบนรถของคุณ</h2>
+    <p class="lede">ลองความเข้มที่ใช่ แล้วเทียบมุมมองก่อนตัดสินใจ</p>
+
+    <div class="studio-body">
+
+      <!-- ── เวทีภาพรถ ── -->
+      <div>
+        <div class="stage">
+          <div class="stage-media">
+            <img id="carPhoto" src="assets/img/car-45.jpg" alt="ภาพรถมุม 45 องศา สำหรับจำลองผลของฟิล์ม">
+            <svg id="tintLayer" viewBox="0 0 1000 558" preserveAspectRatio="none" aria-hidden="true">
+              <g id="tintAround"></g>
+              <g id="tintFront"></g>
+            </svg>
+
+            <div class="stage-top">
+              <div class="ba-toggle">
+                <label class="pill"><input type="radio" name="ba" value="before"><span class="pill-body">ก่อนติด</span></label>
+                <label class="pill"><input type="radio" name="ba" value="after" checked><span class="pill-body">หลังติด</span></label>
+              </div>
+              <div class="live-badges">
+                <span class="live-badge" id="badgeFront">กำลังปรับบานหน้า · <b>—</b></span>
+                <span class="live-badge" id="badgeAround">กำลังปรับรอบคัน · <b>—</b></span>
+              </div>
+            </div>
+
+            <div class="stage-bottom" id="angleBar" role="group" aria-label="เลือกมุมมองรถ"></div>
+          </div>
+          <p class="stage-note" id="stageNote"></p>
+        </div>
+
+        <div class="view-tabs">
+          <button type="button" class="view-tab" id="tabExterior" aria-pressed="true">ภาพมุมมองภายนอก</button>
+          <button type="button" class="view-tab is-pop" id="tabInterior" aria-pressed="false">ภาพมุมมองภายใน</button>
+        </div>
+
+        <div class="spec-row">
+          <div class="spec is-front">
+            <p class="t" id="specFrontTitle">— <small>บานหน้า</small></p>
+            <ul id="specFrontList"></ul>
+          </div>
+          <div class="spec is-around">
+            <p class="t" id="specAroundTitle">— <small>รอบคัน</small></p>
+            <ul id="specAroundList"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ตัวเลือกฟิล์ม ── -->
+      <div class="picker-col">
+        <div class="picker" data-target="front">
+          <h3>ฟิล์มบานหน้า <small>กระจกบังลมหน้า</small></h3>
+          <button type="button" class="btn btn-primary btn-block" data-open-pricelist="front">เลือกรุ่นฟิล์ม</button>
+          <div class="swatches" data-swatches="front" role="group" aria-label="ความเข้มฟิล์มบานหน้า"></div>
+          <div class="range-row">
+            <label class="sr-only" for="rangeFront">ความเข้มฟิล์มบานหน้า</label>
+            <input type="range" id="rangeFront" min="0" max="4" step="1" value="0" data-range="front">
+            <div class="range-ends"><span>ใส</span><span>เข้ม</span></div>
+          </div>
+          <p class="picker-foot" id="footFront">—</p>
+        </div>
+
+        <div class="picker" data-target="around">
+          <h3>ฟิล์มรอบคัน <small>ข้าง–หลัง ทั้งคัน</small></h3>
+          <button type="button" class="btn btn-primary btn-block" data-open-pricelist="around">เลือกรุ่นฟิล์ม</button>
+          <div class="swatches" data-swatches="around" role="group" aria-label="ความเข้มฟิล์มรอบคัน"></div>
+          <div class="range-row">
+            <label class="sr-only" for="rangeAround">ความเข้มฟิล์มรอบคัน</label>
+            <input type="range" id="rangeAround" min="0" max="4" step="1" value="0" data-range="around">
+            <div class="range-ends"><span>ใส</span><span>เข้ม</span></div>
+          </div>
+          <p class="picker-foot" id="footAround">—</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ ขั้นที่ 4 — สรุป ═══════════════════════════════════════════ -->
+  <section class="summary" id="step4" aria-labelledby="h-step4">
+    <h2 id="h-step4">ชุดฟิล์มของคุณ</h2>
+    <div class="sum-grid">
+      <div class="sum-cell">
+        <p class="k">บานหน้า</p>
+        <p class="row"><span>แสงส่องผ่าน</span><span id="sumFrontVlt">—</span></p>
+        <p class="row"><span>ลดความร้อน TSER</span><span id="sumFrontTser">—</span></p>
+        <p class="code" id="sumFrontCode">—</p>
+      </div>
+      <div class="sum-cell">
+        <p class="k">รอบคัน</p>
+        <p class="row"><span>แสงส่องผ่าน</span><span id="sumAroundVlt">—</span></p>
+        <p class="row"><span>ลดความร้อน TSER</span><span id="sumAroundTser">—</span></p>
+        <p class="code" id="sumAroundCode">—</p>
+      </div>
+    </div>
+
+    <div class="sum-price">
+      <p class="k">ราคาสำหรับชุดที่เลือก</p>
+      <h3>สอบถามเจ้าหน้าที่</h3>
+      <p id="priceNote">บานหน้าและรอบคันเป็นคนละซีรี่ส์ ราคารวมต้องให้เจ้าหน้าที่คำนวณให้</p>
+      <div class="sum-actions">
+        <a class="btn btn-primary btn-block" id="lineCta" href="https://line.me/R/ti/p/~@YOUR_LINE_ID" target="_blank" rel="noopener">
+          ปรึกษาชุดนี้ทาง LINE
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+        <button type="button" class="btn btn-ghost btn-block" id="copyBtn">คัดลอกข้อความสรุป</button>
+        <p class="copy-note" id="copyNote" role="status"></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <p><strong>ตัวอย่างหน้าเว็บ (Frontend demo)</strong> — สร้างเพื่อสาธิตฟังก์ชัน UX/UI เท่านั้น</p>
+    <p>ค่า VLT / TSER / UV ช่วงราคา และปีรับประกันที่แสดงเป็นข้อมูลสมมติ ภาพจำลองใช้เทียบแนวทางเท่านั้น ผลจริงขึ้นกับกระจกและสภาพแสงหน้างาน</p>
+  </div>
+</footer>
+
+<!-- ══ POPUP 1 — Price List ทั้ง 6 ซีรี่ส์ ═══════════════════════════ -->
+<dialog id="pricelist" aria-labelledby="pricelistTitle">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="pricelistTitle">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Price List ทั้ง 6 ซีรี่ส์
+        <span class="for" id="pricelistFor">บานหน้า</span>
+      </h2>
+      <button type="button" class="icon-btn" id="pricelistExpandAll" aria-label="เปิดทุกซีรี่ส์">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+      <button type="button" class="icon-btn" data-close-dialog aria-label="ปิดหน้าต่าง">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body" id="pricelistBody"></div>
+    <p class="sheet-foot">แตะที่ซีรี่ส์เพื่อดูรุ่นย่อย แล้วเลือกรุ่นเพื่อใส่ลงภาพจำลองทันที</p>
+  </div>
+</dialog>
+
+<!-- ══ POPUP 2 — มุมมองภายในรถ ═════════════════════════════════════ -->
+<dialog id="interior" aria-labelledby="interiorTitle">
+  <div class="sheet sheet-light">
+    <div class="sheet-head">
+      <h2 id="interiorTitle">ภาพมุมมองภายใน — เทียบก่อน/หลังติดฟิล์ม</h2>
+      <button type="button" class="icon-btn" data-close-dialog aria-label="ปิดหน้าต่าง">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body">
+      <div class="compare" id="compare">
+        <svg viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" aria-label="ภาพจำลองมุมมองจากที่นั่งคนขับ">
+          <defs>
+            <clipPath id="glassClip"><path d="M95,62 L880,55 L912,440 L62,440 Z"/></clipPath>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" id="sky0" stop-color="#7fb6e6"/><stop offset="1" id="sky1" stop-color="#d9ebf7"/>
+            </linearGradient>
+            <linearGradient id="roadGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" id="road0" stop-color="#8d8d92"/><stop offset="1" id="road1" stop-color="#5c5c62"/>
+            </linearGradient>
+          </defs>
+
+          <g clip-path="url(#glassClip)">
+            <rect x="0" y="0" width="960" height="300" fill="url(#skyGrad)"/>
+            <circle id="sunMoon" cx="720" cy="130" r="30" fill="#fff6d8" opacity=".9"/>
+            <path id="hills" d="M0,300 L0,252 C110,224 190,262 280,248 C372,233 430,200 540,214 C650,228 742,258 830,246 C892,238 930,250 960,244 L960,300 Z" fill="#9db98f"/>
+            <rect id="field" x="0" y="296" width="960" height="244" fill="#b6c9a3"/>
+            <polygon id="road" points="392,296 568,296 880,540 80,540" fill="url(#roadGrad)"/>
+            <polygon id="headlights" points="428,326 532,326 772,540 188,540" fill="#fff3c9" opacity="0"/>
+            <polygon id="edgeL" points="392,296 400,296 96,540 60,540" fill="#e9e9ea" opacity=".85"/>
+            <polygon id="edgeR" points="560,296 568,296 900,540 864,540" fill="#e9e9ea" opacity=".85"/>
+            <g id="dashes" fill="#f0e6c8">
+              <polygon points="477,300 483,300 484,316 475,316"/>
+              <polygon points="474,330 486,330 488,356 471,356"/>
+              <polygon points="469,378 491,378 495,420 464,420"/>
+              <polygon points="461,452 499,452 506,532 452,532"/>
+            </g>
+          </g>
+
+          <!-- ชั้นฟิล์ม: กว้างตามตำแหน่งเส้นแบ่ง -->
+          <g clip-path="url(#glassClip)">
+            <rect id="tintFilm" x="480" y="0" width="480" height="540" fill="#1c2a3a" opacity="0"/>
+          </g>
+
+          <!-- โครงภายในรถ -->
+          <g id="cabin">
+            <path d="M0,0 L960,0 L960,58 L880,55 L95,62 L0,0 Z" fill="#26282d"/>
+            <path d="M0,0 L95,62 L62,440 L0,470 Z" fill="#2c2e34"/>
+            <path d="M960,0 L880,55 L912,440 L960,470 Z" fill="#2c2e34"/>
+            <path d="M0,455 L62,440 L912,440 L960,455 L960,540 L0,540 Z" fill="#1b1d21"/>
+            <path d="M120,470 C330,432 640,432 840,470 L840,500 C640,462 330,462 120,500 Z" fill="#26282d"/>
+            <rect x="404" y="52" width="152" height="46" rx="13" fill="#15171a"/>
+            <rect x="412" y="59" width="136" height="32" rx="9" fill="#3a3d43"/>
+            <path d="M812,300 q34,-16 60,4 q10,42 -16,58 q-40,6 -52,-22 Z" fill="#2a2c31"/>
+            <circle cx="470" cy="516" r="60" fill="none" stroke="#33363c" stroke-width="15"/>
+          </g>
+        </svg>
+
+        <div class="compare-line" id="compareLine"></div>
+        <button type="button" class="compare-handle" id="compareHandle" aria-label="ลากเพื่อเทียบก่อน/หลังติดฟิล์ม">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16161a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6 3 12l6 6M15 6l6 6-6 6"/></svg>
+        </button>
+
+        <div class="compare-badges">
+          <div class="col">
+            <span class="live-badge" id="intBadgeFront">กำลังปรับบานหน้า · <b>—</b></span>
+            <span class="live-badge" id="intBadgeAround">กำลังปรับรอบคัน · <b>—</b></span>
+          </div>
+          <span class="tag-code" id="intTagCode">—</span>
+        </div>
+
+        <div class="compare-foot">
+          <label class="pill"><input type="radio" name="tod" value="day" checked><span class="pill-body">กลางวัน</span></label>
+          <label class="pill"><input type="radio" name="tod" value="night"><span class="pill-body">กลางคืน</span></label>
+        </div>
+      </div>
+      <p class="compare-cap"><span>ซ้าย · ก่อนติดฟิล์ม</span><span id="compareCapRight">ขวา · หลังติดฟิล์ม</span></p>
+    </div>
+    <p class="sheet-foot">ภาพจำลองความรู้สึกจากที่นั่งคนขับ ใช้ฟิล์มบานหน้าที่เลือกไว้ในขั้นที่ 3</p>
+  </div>
+</dialog>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
