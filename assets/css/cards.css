@@ -82,6 +82,7 @@ a{color:var(--red-ink)}
   --c-hi:color-mix(in srgb, var(--brand) 34%, #0b0b0e);
   --c-mid:color-mix(in srgb, var(--brand) 18%, #0b0b0e);
   --c-lo:color-mix(in srgb, var(--brand) 8%, #0b0b0e);
+  --brand-ink:color-mix(in srgb, var(--brand) 62%, #ffffff);
 
   position:absolute; left:50%; top:0;
   width:var(--card-w); height:var(--track-h);
@@ -137,12 +138,40 @@ a{color:var(--red-ink)}
 }
 .cf-card[data-mag="0"] .cf-body{pointer-events:auto}
 
-.cf-kicker{
-  align-self:flex-start;
-  background:#fff; color:var(--ink);
-  border-radius:999px; padding:6px 14px;
-  font-size:clamp(11px, calc(var(--card-w) * .033), 13px); font-weight:500;
+/* ---------- หัวข้อโปรย: คำจำกัดความประจำซีรีส์ -------------------------- */
+.cf-top{display:flex; flex-direction:column; align-items:flex-start}
+
+.cf-flag{
+  display:inline-flex; align-items:center; gap:5px;
+  background:#f5c542; color:#16161a;
+  border-radius:999px; padding:5px 12px;
+  font-size:clamp(10px, calc(var(--card-w) * .030), 12px);
+  font-weight:700; letter-spacing:.06em; line-height:1.4;
+  margin-bottom:clamp(8px, calc(var(--card-w) * .028), 11px);
 }
+
+.cf-eyebrow{
+  font-size:clamp(10px, calc(var(--card-w) * .030), 12px);
+  font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+  line-height:1.5; color:var(--brand-ink);
+}
+
+.cf-tagline{
+  margin:2px 0 0;
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(22px, calc(var(--card-w) * .082), 32px);
+  line-height:1.15; color:#fff;
+}
+
+/* ใบข้างโชว์แค่ท่อนแรก — ใช้กลไกยืด-ยุบตัวเดียวกับ .cf-detail */
+.cf-tagsub{
+  display:grid; grid-template-rows:0fr;
+  transition:grid-template-rows var(--cf-dur) var(--cf-ease);
+  font-size:clamp(14px, calc(var(--card-w) * .048), 19px);
+  font-weight:500; line-height:1.45; color:var(--brand-ink);
+}
+.cf-card[data-mag="0"] .cf-tagsub{grid-template-rows:1fr}
+.cf-tagsub-in{overflow:hidden; min-height:0}
 
 .cf-info{margin-top:auto}
 

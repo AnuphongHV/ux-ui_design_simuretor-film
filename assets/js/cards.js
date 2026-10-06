@@ -19,16 +19,26 @@
   var byId = {};
   SERIES.forEach(function (s) { byId[s.id] = s; });
 
+  /* ค่าสีถูกยัดลง inline style จึงต้องกรองก่อน ไม่ปล่อยสตริงอิสระผ่าน */
+  function hex(v) { return /^#[0-9a-f]{3,8}$/i.test(String(v)) ? String(v) : '#666666'; }
+
   var ITEMS = CARD_ORDER.map(function (id) {
     var s = byId[id], c = CARD_COPY[id];
+    /* ตัดที่จุลภาคตัวแรกเท่านั้น ท่อนหลังของบางรุ่นมีเว้นวรรคซ้อนอยู่ */
+    var cut  = c.define.indexOf(',');
+    var lead = (cut < 0 ? c.define : c.define.slice(0, cut)).trim();
+    var sub  = (cut < 0 ? ''       : c.define.slice(cut + 1)).trim();
     return {
       id: id,
       title: s.name.indexOf('VIC ') === 0 ? s.name : 'VIC ' + s.name,
-      brand: c.brand,
-      kicker: c.kicker,
+      brand: hex(c.brand),
+      eyebrow: s.badge,          /* ใช้ของเดิมจาก SERIES ไม่สร้างซ้ำ */
+      lead: lead,
+      sub: sub,
+      best: !!c.best,
       fit: c.fit,
       highlight: c.highlight,
-      tags: c.tags
+      tags: c.tags.slice(1)      /* ตัวแรกคือชื่อซีรีส์ ซ้ำกับ eyebrow ด้านบน */
     };
   });
 
@@ -47,7 +57,17 @@
       return '<li class="cf-card" data-i="' + i + '" data-mag="3" style="--brand:' + it.brand + '">' +
         '<button type="button" class="cf-pick" data-go="' + i + '" aria-label="ดูซีรีส์ ' + esc(it.title) + '"></button>' +
         '<div class="cf-body">' +
-          '<span class="cf-kicker">' + esc(it.kicker) + '</span>' +
+          '<div class="cf-top">' +
+            (it.best
+              ? '<span class="cf-flag">' +
+                  '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>' +
+                  'BEST SELLER' +
+                '</span>'
+              : '') +
+            '<span class="cf-eyebrow">' + esc(it.eyebrow) + '</span>' +
+            '<p class="cf-tagline">' + esc(it.lead) + '</p>' +
+            '<div class="cf-tagsub"><div class="cf-tagsub-in">' + esc(it.sub) + '</div></div>' +
+          '</div>' +
           '<div class="cf-info">' +
             '<h2 class="cf-name">' + esc(it.title) + '</h2>' +
             '<div class="cf-detail"><div class="cf-detail-in">' +
