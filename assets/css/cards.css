@@ -145,8 +145,8 @@ a{color:var(--red-ink)}
 .cf-top{
   align-self:flex-start;
   display:flex; flex-direction:column; align-items:flex-start;
-  padding:clamp(9px, calc(var(--card-w) * .033), 14px)
-          clamp(12px, calc(var(--card-w) * .041), 17px);
+  padding:clamp(8px, calc(var(--card-w) * .028), 12px)
+          clamp(11px, calc(var(--card-w) * .036), 15px);
   border:1.5px solid color-mix(in srgb, var(--brand-ink) 70%, transparent);
   border-radius:14px;
   background:rgba(8,8,12,.42);
@@ -171,15 +171,15 @@ a{color:var(--red-ink)}
 .cf-tagline{
   margin:2px 0 0;
   font-family:var(--font-display); font-weight:700;
-  font-size:clamp(22px, calc(var(--card-w) * .082), 32px);
-  line-height:1.15; color:#fff;
+  font-size:clamp(18px, calc(var(--card-w) * .064), 25px);
+  line-height:1.2; color:#fff;
 }
 
 /* ใบข้างโชว์แค่ท่อนแรก — ใช้กลไกยืด-ยุบตัวเดียวกับ .cf-detail */
 .cf-tagsub{
   display:grid; grid-template-rows:0fr;
   transition:grid-template-rows var(--cf-dur) var(--cf-ease);
-  font-size:clamp(14px, calc(var(--card-w) * .048), 19px);
+  font-size:clamp(12.5px, calc(var(--card-w) * .041), 16px);
   font-weight:500; line-height:1.45; color:var(--brand-ink);
 }
 .cf-card[data-mag="0"] .cf-tagsub{grid-template-rows:1fr}
