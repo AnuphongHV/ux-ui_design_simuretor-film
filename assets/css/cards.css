@@ -1,0 +1,231 @@
+/* ==========================================================================
+   VIC FILM STUDIO — หน้าการ์ดซีรีส์ฟิล์ม (cards.html)
+   ไฟล์นี้แยกจาก styles.css ของหน้าหลักโดยสมบูรณ์
+   ========================================================================== */
+
+:root{
+  --page:#f4f2f0;
+  --ink:#16161a; --ink-2:#55555f;
+  --line:#e4e4e8;
+  --red:#d81f26; --red-ink:#b81017;
+  --font-display:'Anuphan', system-ui, sans-serif;
+  --font-body:'IBM Plex Sans Thai', system-ui, sans-serif;
+
+  /* เรขาคณิตของ carousel — ทุก breakpoint แก้แค่ตัวแปรกลุ่มนี้ */
+  --card-w:392px;
+  --card-r:24px;
+  --track-h:calc(var(--card-w) * 582 / 392);
+  --cf-x1:.62;  --cf-x2:1.04; --cf-x3:1.30;   /* ระยะเลื่อน คูณกับ card-w */
+  --cf-s1:.84;  --cf-s2:.70;  --cf-s3:.64;    /* อัตราย่อ */
+  --cf-o2:.22;                                 /* ความทึบของใบไกล */
+  --cf-veil:.44;                               /* ความหรี่ของใบที่ไม่ active */
+  --cf-dur:.46s;
+  --cf-ease:cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--page); color:var(--ink);
+  font-family:var(--font-body); font-size:15px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--font-display); font-weight:600; letter-spacing:-.01em; margin:0}
+button{font:inherit; color:inherit}
+a{color:var(--red-ink)}
+:focus-visible{outline:2px solid var(--red); outline-offset:3px; border-radius:6px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+.wrap{width:100%; max-width:1180px; margin-inline:auto; padding-inline:18px}
+.cf{padding:34px 0 48px}
+
+/* ---------- เวที: ขังแสงเรืองไว้ข้างใน และตัดการ์ดที่ล้นออก ------------- */
+.cf-stage{
+  position:relative; isolation:isolate; overflow:hidden;
+  padding-block:72px;
+  touch-action:pan-y;
+  user-select:none; -webkit-user-select:none;
+  cursor:grab;
+}
+.cf-stage:active{cursor:grabbing}
+.cf-stage:focus-visible{outline:2px solid var(--red); outline-offset:-2px; border-radius:18px}
+
+/* ---------- แสงเรือง: 2 ชั้นสลับกันด้วย opacity เท่านั้น ---------------- */
+.cf-glow{position:absolute; inset:0; z-index:0; pointer-events:none; contain:paint}
+.cf-glow-l{
+  position:absolute; left:50%; top:50%;
+  width:calc(var(--card-w) * 1.45); height:calc(var(--card-w) * 1.45);
+  margin:calc(var(--card-w) * -.725) 0 0 calc(var(--card-w) * -.725);
+  /* ซ้อน 2 วง: วงในแน่นให้ความเข้ม วงนอกกว้างให้แสงฟุ้ง */
+  background:
+    radial-gradient(closest-side, var(--g, transparent) 0%, rgba(0,0,0,0) 58%),
+    radial-gradient(closest-side, var(--g, transparent) 0%, rgba(0,0,0,0) 84%);
+  filter:blur(40px) saturate(1.25);
+  transform:scale(1.9);           /* เบลอผืนเล็กแล้วค่อยยืด = ถูกกว่าเบลอผืนใหญ่ */
+  opacity:0;
+  transition:opacity .42s linear;
+  will-change:opacity;
+}
+.cf-glow-l.is-on{opacity:1}
+
+/* ---------- ราง + การ์ด ------------------------------------------------- */
+.cf-track{
+  position:relative; z-index:1;
+  list-style:none; margin:0; padding:0;
+  height:var(--track-h);
+}
+
+.cf-card{
+  --dir:0;
+  --c-hi:color-mix(in srgb, var(--brand) 34%, #0b0b0e);
+  --c-mid:color-mix(in srgb, var(--brand) 18%, #0b0b0e);
+  --c-lo:color-mix(in srgb, var(--brand) 8%, #0b0b0e);
+
+  position:absolute; left:50%; top:0;
+  width:var(--card-w); height:var(--track-h);
+  margin-left:calc(var(--card-w) / -2);
+  border-radius:var(--card-r);
+  overflow:hidden;
+  transform-origin:50% 50%;
+  box-shadow:0 26px 60px -24px rgba(10,10,16,.55);
+  transition:transform var(--cf-dur) var(--cf-ease), opacity var(--cf-dur) var(--cf-ease),
+             box-shadow var(--cf-dur) var(--cf-ease);
+  background:
+    linear-gradient(to top, rgba(8,8,10,.88) 0%, rgba(8,8,10,.28) 52%, rgba(8,8,10,0) 76%),
+    radial-gradient(120% 90% at 78% 6%, var(--c-hi), transparent 62%),
+    linear-gradient(158deg, var(--c-mid) 0%, var(--c-lo) 58%, #0b0b0e 100%);
+}
+
+/* หรี่ใบที่ไม่ active ด้วย veil — ห้ามใช้ filter:brightness() (repaint ทุกเฟรม) */
+.cf-card::after{
+  content:""; position:absolute; inset:0; border-radius:inherit;
+  background:rgba(8,8,12,var(--cf-veil));
+  transition:opacity var(--cf-dur) var(--cf-ease);
+  pointer-events:none; z-index:5;
+}
+.cf-card[data-mag="0"]::after{opacity:0}
+
+.cf-card[data-mag="0"]{
+  transform:translateX(0) scale(1); opacity:1; z-index:30;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--brand) 34%, transparent),
+    0 30px 70px -26px rgba(10,10,16,.6);
+}
+.cf-card[data-mag="1"]{transform:translateX(calc(var(--dir) * var(--cf-x1) * var(--card-w))) scale(var(--cf-s1)); opacity:1; z-index:20}
+.cf-card[data-mag="2"]{transform:translateX(calc(var(--dir) * var(--cf-x2) * var(--card-w))) scale(var(--cf-s2)); opacity:var(--cf-o2); z-index:10}
+.cf-card[data-mag="3"]{transform:translateX(calc(var(--dir) * var(--cf-x3) * var(--card-w))) scale(var(--cf-s3)); opacity:0; z-index:0; pointer-events:none}
+
+/* ปิด transition ชั่วคราวตอนวนรอบ ไม่ให้การ์ดวิ่งข้ามจอให้เห็น */
+.cf-card.is-jump{transition:none !important}
+
+/* ปุ่มใสคลุมทั้งใบ ใช้คลิกเลือกใบที่ยังไม่ active */
+.cf-pick{
+  position:absolute; inset:0; z-index:7;
+  border:0; background:transparent; padding:0; cursor:pointer;
+  border-radius:inherit;
+}
+.cf-card[data-mag="0"] .cf-pick{display:none}
+
+/* ---------- เนื้อในการ์ด ------------------------------------------------ */
+.cf-body{
+  position:relative; z-index:6;
+  height:100%; padding:clamp(14px, calc(var(--card-w) * .051), 20px);
+  display:flex; flex-direction:column;
+  pointer-events:none;              /* ให้คลิกทะลุไปโดน .cf-pick */
+}
+.cf-card[data-mag="0"] .cf-body{pointer-events:auto}
+
+.cf-kicker{
+  align-self:flex-start;
+  background:#fff; color:var(--ink);
+  border-radius:999px; padding:6px 14px;
+  font-size:clamp(11px, calc(var(--card-w) * .033), 13px); font-weight:500;
+}
+
+.cf-info{margin-top:auto}
+
+.cf-name{
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(21px, calc(var(--card-w) * .077), 30px);
+  line-height:1.2; color:#fff; margin:0 0 2px;
+}
+
+.cf-detail{
+  display:grid; grid-template-rows:0fr;
+  transition:grid-template-rows var(--cf-dur) var(--cf-ease);
+}
+.cf-card[data-mag="0"] .cf-detail{grid-template-rows:1fr}
+.cf-detail-in{overflow:hidden; min-height:0}
+
+.cf-label{
+  margin:clamp(8px, calc(var(--card-w) * .031), 12px) 0 1px;
+  font-size:clamp(11px, calc(var(--card-w) * .032), 12.5px); color:rgba(255,255,255,.62);
+}
+.cf-value{margin:0; font-size:clamp(13px, calc(var(--card-w) * .038), 15px); color:#fff; line-height:1.5}
+
+.cf-tags{
+  list-style:none; margin:clamp(10px, calc(var(--card-w) * .041), 16px) 0 0; padding:0;
+  display:flex; gap:7px; flex-wrap:wrap;
+}
+.cf-tags li{
+  border:1px solid rgba(255,255,255,.40);
+  background:rgba(10,10,14,.45);
+  border-radius:999px; padding:5px clamp(10px, calc(var(--card-w) * .033), 14px);
+  font-size:clamp(11px, calc(var(--card-w) * .032), 12.5px); color:#fff; white-space:nowrap;
+}
+
+.cf-cta{
+  display:inline-flex; align-items:center; gap:8px;
+  margin-top:clamp(12px, calc(var(--card-w) * .046), 18px);
+  min-height:44px; padding:0 clamp(16px, calc(var(--card-w) * .056), 22px);
+  background:var(--red); color:#fff;
+  border-radius:999px; text-decoration:none;
+  font-size:clamp(14px, calc(var(--card-w) * .038), 15px); font-weight:600;
+  transition:background .15s;
+}
+.cf-cta:hover{background:var(--red-ink); color:#fff}
+
+/* ---------- แถบล่าง: คำอธิบาย + จุดบอกตำแหน่ง -------------------------- */
+.cf-foot{
+  display:flex; align-items:center; gap:24px;
+  margin-top:26px;
+}
+/* --ink-3 (#7c7c87) ตกเกณฑ์บนพื้น #f4f2f0 (3.69:1) ต้องใช้ --ink-2 เท่านั้น */
+.cf-caption{margin:0; flex:1; font-size:13px; color:var(--ink-2); line-height:1.6}
+
+.cf-dots{display:flex; align-items:center; gap:7px; flex:none}
+.cf-dot{
+  width:9px; height:9px; padding:0; border:0;
+  border-radius:999px; background:#c6c3c0; cursor:pointer;
+  transition:width .3s var(--cf-ease), background .3s var(--cf-ease);
+}
+.cf-dot:hover{background:#a8a4a0}
+.cf-dot[aria-selected="true"]{width:30px; background:var(--red)}
+
+/* ---------- responsive --------------------------------------------------- */
+@media (max-width:1199px){
+  :root{--card-w:clamp(280px, 32vw, 392px)}
+}
+@media (max-width:1039px){
+  :root{--cf-x1:.56; --cf-x2:.96; --cf-o2:.18}
+}
+@media (max-width:819px){
+  :root{--cf-x1:.68; --cf-s1:.82; --cf-o2:0}
+  .cf-card[data-mag="2"]{pointer-events:none}
+  .cf-stage{padding-block:56px}
+}
+@media (max-width:559px){
+  :root{--card-w:min(78vw, 300px); --cf-x1:.80; --cf-dur:.34s}
+  .cf-glow-l{filter:blur(34px); transform:scale(1.6)}
+  .cf-foot{flex-direction:column; align-items:flex-start; gap:14px}
+  .cf-dots{align-self:flex-start}
+}
+@media (max-width:430px){
+  :root{--card-w:min(84vw, 280px)}
+  .wrap{padding-inline:14px}
+  .cf-cta{width:100%; justify-content:center}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important; animation:none !important}
+}

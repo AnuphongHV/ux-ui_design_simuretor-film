@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VIC Film Studio — ฟิล์มแต่ละรุ่นของเรา</title>
+<meta name="description" content="การ์ดแนะนำฟิล์มกรองแสง VIC ทั้ง 6 ซีรีส์ เลื่อนดูทีละรุ่นพร้อมจุดเด่นและความเหมาะสม">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/cards.css">
+</head>
+<body>
+
+<main class="wrap">
+  <section class="cf" aria-roledescription="carousel" aria-label="ฟิล์ม VIC ทั้ง 6 ซีรีส์">
+
+    <div class="cf-stage" id="cfStage" tabindex="0" role="group"
+         aria-label="การ์ดซีรีส์ฟิล์ม กดลูกศรซ้ายขวาเพื่อเปลี่ยนรุ่น">
+      <div class="cf-glow" aria-hidden="true">
+        <span class="cf-glow-l" data-layer="a"></span>
+        <span class="cf-glow-l" data-layer="b"></span>
+      </div>
+      <ul class="cf-track" id="cfTrack"></ul>
+    </div>
+
+    <div class="cf-foot">
+      <p class="cf-caption">VIC Film นำเข้าจากสหรัฐอเมริกา จดเครื่องหมายการค้าเป็นของบริษัท และผ่านการรับรองจากมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี</p>
+      <div class="cf-dots" id="cfDots" role="tablist" aria-label="เลือกซีรีส์ฟิล์ม"></div>
+    </div>
+
+    <p class="sr-only" id="cfStatus" role="status" aria-live="polite"></p>
+  </section>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/cards-data.js"></script>
+<script src="assets/js/cards.js"></script>
+</body>
+</html>
