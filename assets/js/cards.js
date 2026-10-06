@@ -138,7 +138,7 @@
   }
 
   /* ------------------------------------------------------------- ปฏิสัมพันธ์ */
-  var drag = { on: false, x: 0, moved: 0 };
+  var drag = { on: false, x: 0, moved: 0, id: null, captured: false };
 
   function wire() {
     document.addEventListener('click', function (ev) {
@@ -162,20 +162,30 @@
     stage.addEventListener('keydown', keyNav);
     dotBox.addEventListener('keydown', keyNav);
 
+    /* จับ pointer เฉพาะตอนที่ลากจริงเท่านั้น
+       ถ้า setPointerCapture ตั้งแต่ pointerdown เบราว์เซอร์จะย้าย target ของ
+       event click มาที่ตัวเวที ปุ่มบนการ์ดใบข้างจึงกดไม่ติด */
     stage.addEventListener('pointerdown', function (ev) {
       if (ev.button) { return; }
       drag.on = true; drag.x = ev.clientX; drag.moved = 0;
-      try { stage.setPointerCapture(ev.pointerId); } catch (e) {}
+      drag.id = ev.pointerId; drag.captured = false;
     });
     stage.addEventListener('pointermove', function (ev) {
-      if (drag.on) { drag.moved = ev.clientX - drag.x; }
+      if (!drag.on) { return; }
+      drag.moved = ev.clientX - drag.x;
+      if (!drag.captured && Math.abs(drag.moved) > 8) {
+        drag.captured = true;
+        try { stage.setPointerCapture(drag.id); } catch (e) {}
+      }
     });
     stage.addEventListener('pointerup', function () {
       if (!drag.on) { return; }
       drag.on = false;
       if (Math.abs(drag.moved) > 40) { go(state.active + (drag.moved < 0 ? 1 : -1)); }
     });
-    stage.addEventListener('pointercancel', function () { drag.on = false; drag.moved = 0; });
+    stage.addEventListener('pointercancel', function () {
+      drag.on = false; drag.captured = false; drag.moved = 0;
+    });
   }
 
   /* ------------------------------------------------------------------- init */
