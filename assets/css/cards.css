@@ -112,10 +112,12 @@ a{color:var(--red-ink)}
   /* --brand ดิบที่ 34% ซีรีส์สีเข้มแทบไม่เห็น ใช้ --brand-ink ที่ยกขึ้นหาขาวแล้ว
      และต้องสว่างเกือบเต็ม เพราะแสงเรืองที่อยู่ถัดออกไปเป็นสีแบรนด์เหมือนกัน
      ถ้าความทึบต่ำเส้นขอบจะกลืนหายไปกับแสงของตัวเอง
-     วงนอก 1px สีมืดทำหน้าที่คั่นเส้นขอบกับแสง ให้ขอบคมไม่ว่าแสงจะสีอะไร */
+     วงนอก 1px สีมืดทำหน้าที่คั่นเส้นขอบกับแสง ให้ขอบคมไม่ว่าแสงจะสีอะไร
+     ความหนาลดจาก 2px เหลือ 1.5px ได้เพราะแผ่นทึบสีแบรนด์ด้านบน
+     รับหน้าที่บอกสีประจำรุ่นแทนแล้ว วงแหวนไม่ต้องตะโกนคนเดียว */
   box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--brand-ink) 95%, transparent),
-    0 0 0 3px rgba(8,8,12,.5),
+    0 0 0 1.5px color-mix(in srgb, var(--brand-ink) 95%, transparent),
+    0 0 0 2.5px rgba(8,8,12,.5),
     0 30px 70px -26px rgba(10,10,16,.6);
 }
 .cf-card[data-mag="1"]{transform:translateX(calc(var(--dir) * var(--cf-x1) * var(--card-w))) scale(var(--cf-s1)); opacity:1; z-index:20}
@@ -193,16 +195,6 @@ a{color:var(--red-ink)}
   font-size:clamp(18px, calc(var(--card-w) * .064), 25px);
   line-height:1.2; color:inherit;
 }
-
-/* ใบข้างโชว์แค่ท่อนแรก — ใช้กลไกยืด-ยุบตัวเดียวกับ .cf-detail */
-.cf-tagsub{
-  display:grid; grid-template-rows:0fr;
-  transition:grid-template-rows var(--cf-dur) var(--cf-ease);
-  font-size:clamp(12.5px, calc(var(--card-w) * .041), 16px);
-  font-weight:500; line-height:1.45; color:inherit;
-}
-.cf-card[data-mag="0"] .cf-tagsub{grid-template-rows:1fr}
-.cf-tagsub-in{overflow:hidden; min-height:0}
 
 .cf-info{margin-top:auto}
 

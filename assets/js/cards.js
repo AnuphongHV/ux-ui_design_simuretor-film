@@ -24,17 +24,16 @@
 
   var ITEMS = CARD_ORDER.map(function (id) {
     var s = byId[id], c = CARD_COPY[id];
-    /* ตัดที่จุลภาคตัวแรกเท่านั้น ท่อนหลังของบางรุ่นมีเว้นวรรคซ้อนอยู่ */
+    /* แสดงเฉพาะท่อนแรก ตัดที่จุลภาคตัวแรก
+       ท่อนหลังยังอยู่ครบใน CARD_COPY[].define เผื่ออยากเอากลับมา */
     var cut  = c.define.indexOf(',');
     var lead = (cut < 0 ? c.define : c.define.slice(0, cut)).trim();
-    var sub  = (cut < 0 ? ''       : c.define.slice(cut + 1)).trim();
     return {
       id: id,
       title: s.name.indexOf('VIC ') === 0 ? s.name : 'VIC ' + s.name,
       brand: hex(c.brand),
       eyebrow: s.badge,          /* ใช้ของเดิมจาก SERIES ไม่สร้างซ้ำ */
       lead: lead,
-      sub: sub,
       best: !!c.best,
       fit: c.fit,
       highlight: c.highlight,
@@ -64,7 +63,6 @@
             '<div class="cf-top">' +
               '<span class="cf-eyebrow">' + esc(it.eyebrow) + '</span>' +
               '<p class="cf-tagline">' + esc(it.lead) + '</p>' +
-              '<div class="cf-tagsub"><div class="cf-tagsub-in">' + esc(it.sub) + '</div></div>' +
             '</div>' +
             (it.best
               ? '<span class="cf-flag">' +
