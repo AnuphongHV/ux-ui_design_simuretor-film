@@ -143,9 +143,16 @@ a{color:var(--red-ink)}
 .cf-card[data-mag="0"] .cf-body{pointer-events:auto}
 
 /* ---------- หัวข้อโปรย: คำจำกัดความประจำซีรีส์ -------------------------- */
-/* กรอบรอบคำจำกัดความ — หดพอดีข้อความ ไม่เต็มความกว้างการ์ด
-   สีกรอบใช้ --brand-ink (ยกขึ้นหาขาวแล้ว) เพื่อให้ซีรีส์สีเข้มอย่าง MC/VB
-   ยังเห็นกรอบชัด ส่วนพื้นทึบช่วยดันตัวอักษรให้เด่นขึ้นจากไล่เฉดของการ์ด */
+/* แผ่นทึบสีแบรนด์ — หดพอดีข้อความ ไม่เต็มความกว้างการ์ด
+   สลับขั้วสีจากทั้งการ์ด (การ์ดมืด → แผ่นสว่าง) จึงเด่นกว่าเนื้อหาด้านล่าง
+   โดยไม่ต้องขยายตัวอักษร ซึ่งผู้ใช้เพิ่งขอให้ลดลงไป
+
+   ไม่ใช้พื้นโปร่งอีกแล้ว เพราะไล่เฉดสีแบรนด์ของการ์ดอยู่มุมขวาบน
+   (radial ที่ 78% 6%) ทำให้แผ่นได้ซ้ายมืด ~2% ขวาสว่าง ~84% = สีไม่สม่ำเสมอ
+   พื้นทึบตัดปัญหานี้ทิ้งเพราะไม่ขึ้นกับสิ่งที่อยู่ข้างหลัง
+
+   ใช้ --brand-ink ไม่ใช่ --brand ดิบ: พื้น --brand ดิบกับตัวอักษร #16161a
+   จะตกเกณฑ์ที่ MC (~3.1:1) และ VB (~3.0:1) */
 /* กรอบชิดซ้าย ป้ายชิดขวา อยู่แถวเดียวกัน
    ไม่ใช้ absolute เพราะกรอบของการ์ดที่มี/ไม่มีป้ายต้องเริ่มระดับเดียวกัน
    และ flexbox จะหดกรอบให้เองแทนที่จะปล่อยให้ทับป้ายที่จอแคบ */
@@ -159,15 +166,16 @@ a{color:var(--red-ink)}
   display:flex; flex-direction:column; align-items:flex-start;
   padding:clamp(8px, calc(var(--card-w) * .028), 12px)
           clamp(11px, calc(var(--card-w) * .036), 15px);
-  border:1.5px solid color-mix(in srgb, var(--brand-ink) 70%, transparent);
   border-radius:14px;
-  background:rgba(8,8,12,.42);
+  background:var(--brand-ink);      /* พื้นทึบ ไม่มีขอบเส้น = เลิกใช้ภาษาภาพเดียวกับแท็กด้านล่าง */
+  color:#16161a;                    /* ตัวอักษรเข้มทั้งก้อน ชั้นในสืบทอดสีนี้ */
+  box-shadow:0 6px 18px -8px rgba(0,0,0,.55);   /* ยกแผ่นให้ลอยจากพื้นการ์ด */
 }
 
 .cf-flag{
   flex:none;
   display:inline-flex; align-items:center; gap:5px;
-  background:#f5c542; color:#16161a;
+  background:#fff; color:#16161a;   /* ขาว = เป็นกลาง ไม่ชนกับแผ่นสีแบรนด์ซีรีส์ใด */
   border-radius:999px; padding:5px 12px;
   font-size:clamp(10px, calc(var(--card-w) * .030), 12px);
   font-weight:700; letter-spacing:.06em; line-height:1.4;
@@ -176,14 +184,14 @@ a{color:var(--red-ink)}
 .cf-eyebrow{
   font-size:clamp(10px, calc(var(--card-w) * .030), 12px);
   font-weight:600; letter-spacing:.12em; text-transform:uppercase;
-  line-height:1.5; color:var(--brand-ink);
+  line-height:1.5; color:inherit;
 }
 
 .cf-tagline{
   margin:2px 0 0;
   font-family:var(--font-display); font-weight:700;
   font-size:clamp(18px, calc(var(--card-w) * .064), 25px);
-  line-height:1.2; color:#fff;
+  line-height:1.2; color:inherit;
 }
 
 /* ใบข้างโชว์แค่ท่อนแรก — ใช้กลไกยืด-ยุบตัวเดียวกับ .cf-detail */
@@ -191,7 +199,7 @@ a{color:var(--red-ink)}
   display:grid; grid-template-rows:0fr;
   transition:grid-template-rows var(--cf-dur) var(--cf-ease);
   font-size:clamp(12.5px, calc(var(--card-w) * .041), 16px);
-  font-weight:500; line-height:1.45; color:var(--brand-ink);
+  font-weight:500; line-height:1.45; color:inherit;
 }
 .cf-card[data-mag="0"] .cf-tagsub{grid-template-rows:1fr}
 .cf-tagsub-in{overflow:hidden; min-height:0}
