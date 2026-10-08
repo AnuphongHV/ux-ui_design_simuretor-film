@@ -22,16 +22,32 @@
   /* ค่าสีถูกยัดลง inline style จึงต้องกรองก่อน ไม่ปล่อยสตริงอิสระผ่าน */
   function hex(v) { return /^#[0-9a-f]{3,8}$/i.test(String(v)) ? String(v) : '#666666'; }
 
+  /* เลือกสีตัวอักษรบนแผ่นจากความสว่างจริงของสีแบรนด์ ไม่ฮาร์ดโค้ดรายซีรีส์
+     ถ้าลูกค้าเปลี่ยนสีในตารางเมื่อไร ตัวอักษรจะพลิกตามเอง
+     จุดตัด .1791 คือจุดที่ตัวอักษรดำกับขาวให้ contrast เท่ากันพอดี */
+  function inkOn(h) {
+    var s = h.slice(1);
+    if (s.length === 3) s = s[0] + s[0] + s[1] + s[1] + s[2] + s[2];
+    if (s.length < 6) return '#fff';
+    var y = [0, 2, 4].map(function (i) {
+      var v = parseInt(s.substr(i, 2), 16) / 255;
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return (0.2126 * y[0] + 0.7152 * y[1] + 0.0722 * y[2]) > 0.1791 ? '#000' : '#fff';
+  }
+
   var ITEMS = CARD_ORDER.map(function (id) {
     var s = byId[id], c = CARD_COPY[id];
     /* แสดงเฉพาะท่อนแรก ตัดที่จุลภาคตัวแรก
        ท่อนหลังยังอยู่ครบใน CARD_COPY[].define เผื่ออยากเอากลับมา */
     var cut  = c.define.indexOf(',');
     var lead = (cut < 0 ? c.define : c.define.slice(0, cut)).trim();
+    var brand = hex(c.brand);
     return {
       id: id,
       title: s.name.indexOf('VIC ') === 0 ? s.name : 'VIC ' + s.name,
-      brand: hex(c.brand),
+      brand: brand,
+      ink: inkOn(brand),         /* สีตัวอักษรบนแผ่น พลิกตามความสว่างของสีแบรนด์ */
       eyebrow: s.badge,          /* ใช้ของเดิมจาก SERIES ไม่สร้างซ้ำ */
       lead: lead,
       best: !!c.best,
@@ -53,7 +69,7 @@
 
   function build() {
     track.innerHTML = ITEMS.map(function (it, i) {
-      return '<li class="cf-card" data-i="' + i + '" data-mag="3" style="--brand:' + it.brand + '">' +
+      return '<li class="cf-card" data-i="' + i + '" data-mag="3" style="--brand:' + it.brand + ';--ink:' + it.ink + '">' +
         '<button type="button" class="cf-pick" data-go="' + i + '" aria-label="ดูซีรีส์ ' + esc(it.title) + '"></button>' +
         '<div class="cf-body">' +
           /* แถวเดียว: กรอบคำจำกัดความชิดซ้าย ป้ายชิดขวา
