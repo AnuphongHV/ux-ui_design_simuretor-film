@@ -55,20 +55,19 @@ a{color:var(--red-ink)}
 .cf-glow{position:absolute; inset:0; z-index:25; pointer-events:none; contain:paint}
 .cf-glow-l{
   position:absolute; left:50%; top:50%;
-  /* ทรงรีตามสัดส่วนการ์ด แสงจึงล้นพ้นขอบเท่ากันทุกด้าน */
-  width:calc(var(--card-w) * 1.25); height:calc(var(--track-h) * 1.08);
-  margin:calc(var(--track-h) * -.54) 0 0 calc(var(--card-w) * -.625);
-  /* ซ้อน 2 วง: วงในแน่นให้ความเข้ม วงนอกให้ขอบฟุ้งนุ่ม */
-  background:
-    radial-gradient(closest-side, var(--g, transparent) 0%, rgba(0,0,0,0) 62%),
-    radial-gradient(closest-side, var(--g, transparent) 0%, rgba(0,0,0,0) 88%);
-  filter:blur(34px) saturate(1.3);
-  transform:scale(1.3);           /* เบลอผืนเล็กแล้วค่อยยืด = ถูกกว่าเบลอผืนใหญ่ */
+  /* สี่เหลี่ยมมุมมนขนาดเท่าการ์ดเป๊ะ แล้วเบลอ — halo จึงเดินตามทรงการ์ด
+     ไม่ใช่ก้อนวงรีแบบเดิมที่ล้นพ้นขอบข้างละ 122px จนอ่านเป็นหมอก */
+  width:var(--card-w); height:var(--track-h);
+  margin:calc(var(--track-h) / -2) 0 0 calc(var(--card-w) / -2);
+  border-radius:var(--card-r);    /* ใช้รัศมีเดียวกับการ์ด */
+  background:var(--g, transparent);
+  filter:blur(40px) saturate(1.2);
+  transform:scale(1.04);          /* ล้นพ้นขอบรวมขอบฟุ้งราว 48px */
   opacity:0;
   transition:opacity .42s linear;
   will-change:opacity;
 }
-.cf-glow-l.is-on{opacity:.88}
+.cf-glow-l.is-on{opacity:.9}
 
 /* ---------- ราง + การ์ด ------------------------------------------------- */
 .cf-track{
@@ -110,8 +109,13 @@ a{color:var(--red-ink)}
 
 .cf-card[data-mag="0"]{
   transform:translateX(0) scale(1); opacity:1; z-index:30;
+  /* --brand ดิบที่ 34% ซีรีส์สีเข้มแทบไม่เห็น ใช้ --brand-ink ที่ยกขึ้นหาขาวแล้ว
+     และต้องสว่างเกือบเต็ม เพราะแสงเรืองที่อยู่ถัดออกไปเป็นสีแบรนด์เหมือนกัน
+     ถ้าความทึบต่ำเส้นขอบจะกลืนหายไปกับแสงของตัวเอง
+     วงนอก 1px สีมืดทำหน้าที่คั่นเส้นขอบกับแสง ให้ขอบคมไม่ว่าแสงจะสีอะไร */
   box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--brand) 34%, transparent),
+    0 0 0 2px color-mix(in srgb, var(--brand-ink) 95%, transparent),
+    0 0 0 3px rgba(8,8,12,.5),
     0 30px 70px -26px rgba(10,10,16,.6);
 }
 .cf-card[data-mag="1"]{transform:translateX(calc(var(--dir) * var(--cf-x1) * var(--card-w))) scale(var(--cf-s1)); opacity:1; z-index:20}
@@ -142,8 +146,16 @@ a{color:var(--red-ink)}
 /* กรอบรอบคำจำกัดความ — หดพอดีข้อความ ไม่เต็มความกว้างการ์ด
    สีกรอบใช้ --brand-ink (ยกขึ้นหาขาวแล้ว) เพื่อให้ซีรีส์สีเข้มอย่าง MC/VB
    ยังเห็นกรอบชัด ส่วนพื้นทึบช่วยดันตัวอักษรให้เด่นขึ้นจากไล่เฉดของการ์ด */
+/* กรอบชิดซ้าย ป้ายชิดขวา อยู่แถวเดียวกัน
+   ไม่ใช้ absolute เพราะกรอบของการ์ดที่มี/ไม่มีป้ายต้องเริ่มระดับเดียวกัน
+   และ flexbox จะหดกรอบให้เองแทนที่จะปล่อยให้ทับป้ายที่จอแคบ */
+.cf-head{
+  display:flex; align-items:flex-start; justify-content:space-between;
+  gap:10px;
+}
+
 .cf-top{
-  align-self:flex-start;
+  min-width:0;                    /* ยอมให้หด ข้อความตัดบรรทัดแทนการทับกัน */
   display:flex; flex-direction:column; align-items:flex-start;
   padding:clamp(8px, calc(var(--card-w) * .028), 12px)
           clamp(11px, calc(var(--card-w) * .036), 15px);
@@ -153,13 +165,12 @@ a{color:var(--red-ink)}
 }
 
 .cf-flag{
-  align-self:flex-start;
+  flex:none;
   display:inline-flex; align-items:center; gap:5px;
   background:#f5c542; color:#16161a;
   border-radius:999px; padding:5px 12px;
   font-size:clamp(10px, calc(var(--card-w) * .030), 12px);
   font-weight:700; letter-spacing:.06em; line-height:1.4;
-  margin-bottom:clamp(8px, calc(var(--card-w) * .028), 11px);
 }
 
 .cf-eyebrow{
@@ -259,7 +270,7 @@ a{color:var(--red-ink)}
 }
 @media (max-width:559px){
   :root{--card-w:min(78vw, 300px); --cf-x1:.80; --cf-dur:.34s}
-  .cf-glow-l{filter:blur(26px); transform:scale(1.22)}
+  .cf-glow-l{filter:blur(28px) saturate(1.2); transform:scale(1.03)}
   .cf-foot{flex-direction:column; align-items:flex-start; gap:14px}
   .cf-dots{align-self:flex-start}
 }
