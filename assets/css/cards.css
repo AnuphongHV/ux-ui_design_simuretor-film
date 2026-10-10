@@ -39,6 +39,34 @@ a{color:var(--red-ink)}
 .wrap{width:100%; max-width:1180px; margin-inline:auto; padding-inline:18px}
 .cf{padding:34px 0 48px}
 
+/* ---------- หัวเรื่องหน้า (เลย์เอาต์ตามเว็บจริง) ------------------------ */
+.cf-head-row{
+  display:flex; align-items:flex-end; justify-content:space-between;
+  gap:20px; flex-wrap:wrap; margin-bottom:6px;
+}
+.cf-eyebrow-page{
+  margin:0 0 6px; color:var(--red-ink);
+  font-size:12.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+}
+.cf-title{font-size:clamp(30px, 5vw, 52px); line-height:1.1; font-weight:700}
+.cf-nav{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+.cf-nav-group{
+  display:flex; background:#fff; border:1px solid var(--line);
+  border-radius:999px; padding:4px; gap:2px;
+}
+.cf-nav-btn{
+  width:44px; min-height:40px; border:0; border-radius:999px;
+  background:transparent; cursor:pointer; font-size:17px; line-height:1;
+  transition:background .18s;
+}
+.cf-nav-btn:hover{background:#f1efed}
+.cf-all{
+  display:inline-flex; align-items:center; min-height:48px; padding:0 22px;
+  background:var(--red); color:#fff; border-radius:999px;
+  font-weight:600; text-decoration:none;
+}
+.cf-all:hover{background:var(--red-ink)}
+
 /* ---------- เวที: ขังแสงเรืองไว้ข้างใน และตัดการ์ดที่ล้นออก ------------- */
 .cf-stage{
   position:relative; isolation:isolate; overflow:hidden;
@@ -52,7 +80,13 @@ a{color:var(--red-ink)}
 
 /* ---------- แสงเรือง: 2 ชั้นสลับกันด้วย opacity เท่านั้น ---------------- */
 /* z-index 25 = เหนือใบข้าง (10/20) แต่ใต้ใบกลาง (30) แสงจึงล้นไปทับใบข้างได้ */
-.cf-glow{position:absolute; inset:0; z-index:25; pointer-events:none; contain:paint}
+/* mask ทำให้แสงจางหายก่อนถึงขอบบนของเวที — กันไม่ให้ฟุ้งขึ้นไปชนหัวเรื่อง
+   แก้ที่ตัวแสงเอง ไม่พึ่ง overflow ของพ่อแม่ จะได้พอร์ตไปวางที่ไหนก็ปลอดภัย */
+.cf-glow{
+  position:absolute; inset:0; z-index:25; pointer-events:none; contain:paint;
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 16%, #000 92%, transparent 100%);
+          mask-image:linear-gradient(to bottom, transparent 0, #000 16%, #000 92%, transparent 100%);
+}
 .cf-glow-l{
   position:absolute; left:50%; top:50%;
   /* สี่เหลี่ยมมุมมนขนาดเท่าการ์ดเป๊ะ แล้วเบลอ — halo จึงเดินตามทรงการ์ด
@@ -61,13 +95,13 @@ a{color:var(--red-ink)}
   margin:calc(var(--track-h) / -2) 0 0 calc(var(--card-w) / -2);
   border-radius:var(--card-r);    /* ใช้รัศมีเดียวกับการ์ด */
   background:var(--g, transparent);
-  filter:blur(40px) saturate(1.2);
-  transform:scale(1.04);          /* ล้นพ้นขอบรวมขอบฟุ้งราว 48px */
+  filter:blur(26px) saturate(1.2);
+  transform:scale(1);
   opacity:0;
   transition:opacity .42s linear;
   will-change:opacity;
 }
-.cf-glow-l.is-on{opacity:.9}
+.cf-glow-l.is-on{opacity:.55}
 
 /* ---------- ราง + การ์ด ------------------------------------------------- */
 .cf-track{
@@ -82,6 +116,9 @@ a{color:var(--red-ink)}
   --c-mid:color-mix(in srgb, var(--brand) 18%, #0b0b0e);
   --c-lo:color-mix(in srgb, var(--brand) 8%, #0b0b0e);
   --brand-ink:color-mix(in srgb, var(--brand) 62%, #ffffff);
+  /* จุดสีบนกระจกฝ้าต้องสว่างกว่า --brand-ink อีกนิด ไม่งั้น NCS ได้ 2.96:1
+     ตกเกณฑ์กราฟิก 3:1 — แยกตัวแปรไว้ไม่ให้ไปกระทบวงแหวนขอบการ์ด */
+  --brand-dot:color-mix(in srgb, var(--brand) 52%, #ffffff);
 
   position:absolute; left:50%; top:0;
   width:var(--card-w); height:var(--track-h);
@@ -96,6 +133,32 @@ a{color:var(--red-ink)}
     linear-gradient(to top, rgba(8,8,10,.88) 0%, rgba(8,8,10,.28) 52%, rgba(8,8,10,0) 76%),
     radial-gradient(120% 90% at 78% 6%, var(--c-hi), transparent 62%),
     linear-gradient(158deg, var(--c-mid) 0%, var(--c-lo) 58%, #0b0b0e 100%);
+}
+
+/* รูปพื้นหลังการ์ด — inset:0 + cover รับประกันว่าคลุมเต็มใบเสมอ ไม่ว่าสัดส่วน
+   รูปเป็นเท่าไร จึงไม่มีชั้นที่อยู่ข้างหลังโผล่เป็นแถบออกมาให้เห็น
+   border-radius:inherit กันมุมฉากยื่นพ้นขอบมน (อาการ "แถบแปลก" ที่พบในเว็บจริง) */
+.cf-photo{
+  position:absolute; inset:0; z-index:1;
+  display:block;                  /* img เป็น inline โดยปริยาย จะเหลือ gap ใต้ภาพ */
+  width:100%; height:100%;
+  object-fit:cover;
+  border-radius:inherit;
+}
+
+/* ม่านไล่เฉดทับรูป — รูปแต่ละใบสว่างไม่เท่ากัน ถ้าไม่มีฐานที่คาดเดาได้
+   contrast ของตัวอักษรจะขึ้นกับรูป ท่อนบนรองแผ่นคำจำกัดความ ท่อนล่างรองชื่อรุ่น */
+.cf-card::before{
+  content:""; position:absolute; inset:0; z-index:2;
+  border-radius:inherit; pointer-events:none;
+  background:
+    linear-gradient(to bottom, rgba(6,6,10,.62) 0%, rgba(6,6,10,0) 30%),
+    linear-gradient(to top,    rgba(6,6,10,.93) 0%, rgba(6,6,10,.90) 44%,
+                               rgba(6,6,10,.60) 58%, rgba(6,6,10,0) 78%);
+  /* เส้นมืด 1px ชิดขอบใน — ให้วงแหวนสีแบรนด์มีเพื่อนบ้านมืดทั้งสองฝั่งเสมอ
+     ไม่งั้น contrast ด้านในจะขึ้นกับว่ารูปตรงนั้นสว่างแค่ไหน (MC/VB เคยตกเหลือ 2.4:1)
+     ต้องอยู่บน ::before ไม่ใช่ inset shadow ของการ์ด เพราะรูปเป็นลูกจะทับ shadow */
+  box-shadow:inset 0 0 0 2px rgba(6,6,10,.66);
 }
 
 /* หรี่ใบที่ไม่ active ด้วย veil — ห้ามใช้ filter:brightness() (repaint ทุกเฟรม) */
@@ -156,10 +219,12 @@ a{color:var(--red-ink)}
    (radial ที่ 78% 6%) ทำให้แผ่นได้ซ้ายมืด ~2% ขวาสว่าง ~84% = สีไม่สม่ำเสมอ
    พื้นทึบตัดปัญหานี้ทิ้งเพราะไม่ขึ้นกับสิ่งที่อยู่ข้างหลัง
 
-   ใช้สีแบรนด์ดิบ ไม่ผสมขาว เพื่อให้ตรงกับช่องสีในตารางของลูกค้าเป๊ะ
-   สีตัวอักษร --ink คำนวณจากความสว่างของสีแบรนด์ใน cards.js แล้วส่งมาทาง
-   inline style: สีสว่างได้ตัวอักษรดำ สีมืด (MC/VB) ได้ตัวอักษรขาว
-   จึงผ่าน contrast ทุกซีรีส์โดยไม่ต้องทำให้สีซีดลง */
+   พื้นหลังการ์ดเป็นรูป แผ่นทึบจึงบังรูป เปลี่ยนเป็นกระจกฝ้า: พื้นดำโปร่ง +
+   backdrop-filter เบลอสิ่งที่อยู่ข้างหลัง มองทะลุเห็นรูปแต่ตัวอักษรยังอ่านชัด
+
+   ตัวอักษรเป็นสีขาวทั้งหมด ไม่ใช้สีแบรนด์เป็นตัวอักษร — วัดแล้วกระจกฝ้าให้พื้น
+   เทากลาง (~#68686B) ซึ่งเป็นพื้นที่แย่ที่สุดสำหรับสีอิ่ม NCS ได้แค่ 1.89:1
+   สีประจำรุ่นจึงย้ายไปเป็นจุดกลมหน้า eyebrow ซึ่งเป็นกราฟิก ใช้เกณฑ์ 3:1 */
 /* กรอบชิดซ้าย ป้ายชิดขวา อยู่แถวเดียวกัน
    ไม่ใช้ absolute เพราะกรอบของการ์ดที่มี/ไม่มีป้ายต้องเริ่มระดับเดียวกัน
    และ flexbox จะหดกรอบให้เองแทนที่จะปล่อยให้ทับป้ายที่จอแคบ */
@@ -173,10 +238,13 @@ a{color:var(--red-ink)}
   display:flex; flex-direction:column; align-items:flex-start;
   padding:clamp(8px, calc(var(--card-w) * .028), 12px)
           clamp(11px, calc(var(--card-w) * .036), 15px);
-  border-radius:14px;
-  background:var(--brand);          /* สีดิบตรงตาราง ไม่มีขอบเส้น = เลิกใช้ภาษาภาพเดียวกับแท็กด้านล่าง */
-  color:var(--ink);                 /* ดำหรือขาวตามความสว่างของสีแบรนด์ ชั้นในสืบทอดสีนี้ */
-  box-shadow:0 6px 18px -8px rgba(0,0,0,.55);   /* ยกแผ่นให้ลอยจากพื้นการ์ด */
+  border-radius:12px;
+  background:rgba(8,8,12,.58);
+  -webkit-backdrop-filter:blur(16px) saturate(1.2);
+          backdrop-filter:blur(16px) saturate(1.2);
+  border:1px solid rgba(255,255,255,.16);
+  color:#fff;                       /* ชั้นในสืบทอดสีนี้ */
+  box-shadow:0 8px 24px -12px rgba(0,0,0,.6);   /* ยกแผ่นให้ลอยจากรูป */
 }
 
 .cf-flag{
@@ -192,6 +260,13 @@ a{color:var(--red-ink)}
   font-size:clamp(10px, calc(var(--card-w) * .030), 12px);
   font-weight:600; letter-spacing:.12em; text-transform:uppercase;
   line-height:1.5; color:inherit;
+  display:inline-flex; align-items:center; gap:7px;
+}
+/* จุดสีประจำรุ่น — เป็นกราฟิกไม่ใช่ตัวอักษร เกณฑ์จึง 3:1 ไม่ใช่ 4.5:1 */
+.cf-eyebrow::before{
+  content:""; flex:none;
+  width:8px; height:8px; border-radius:50%;
+  background:var(--brand-dot);
 }
 
 .cf-tagline{

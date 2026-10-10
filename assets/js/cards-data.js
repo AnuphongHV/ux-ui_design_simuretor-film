@@ -17,6 +17,7 @@ const CARD_ORDER = ['snc', 'ncs', 'mc', 'sq', 'eco', 'vb'];
 
 const CARD_COPY = {
   snc: {
+    photo: 'assets/img/car-45.jpg',
     brand: '#BF9000',
     define: 'รุ่นท็อปพรีเมียม, ที่สุดของระดับเรือธง',
     best: true,
@@ -25,6 +26,7 @@ const CARD_COPY = {
     tags: ['S-NC Series', 'ไม่กวนสัญญาณ', 'เรือธง']
   },
   ncs: {
+    photo: 'assets/img/car-0.jpg',
     brand: '#FF0000',
     define: 'หรูหราไฮเอนด์, กันร้อนเหนือระดับ',
     fit: 'คนที่ขับกลางคืนบ่อย และต้องการกันร้อนระดับสูง',
@@ -32,6 +34,7 @@ const CARD_COPY = {
     tags: ['NCS Series', 'มองกลางคืนชัด', 'กันร้อนสูง']
   },
   mc: {
+    photo: 'assets/img/car-135.jpg',
     brand: '#38761D',
     define: 'รุ่นยอดฮิต, ดำนอก สว่างใน',
     fit: 'คนที่อยากได้กระจกดูใส แต่ยังต้องการลดความร้อน',
@@ -39,6 +42,7 @@ const CARD_COPY = {
     tags: ['MC Series', 'เนื้อใส', 'ทัศนวิสัยดี']
   },
   eco: {
+    photo: 'assets/img/car-45.jpg',
     brand: '#FF6D01',
     define: 'เซรามิคสายคุ้มค่า, เข้าถึงง่ายสบายกระเป๋า',
     fit: 'คนที่อยากได้ฟิล์มเซรามิกในงบที่จับต้องได้',
@@ -46,6 +50,7 @@ const CARD_COPY = {
     tags: ['ECO Series', 'คุ้มค่า', 'ครบทุกความเข้ม']
   },
   sq: {
+    photo: 'assets/img/car-0.jpg',
     brand: '#FFFF00',
     define: 'สายสปอร์ตดุดัน, เข้มจัด แต่ชัดจริง',
     fit: 'คนที่ชอบโทนดำนิ่ง ไม่สะท้อนแสง',
@@ -53,6 +58,7 @@ const CARD_COPY = {
     tags: ['SQ Series', 'โทนดำนิ่ง', 'ไม่สะท้อน']
   },
   vb: {
+    photo: 'assets/img/car-135.jpg',
     brand: '#666666',
     define: 'รุ่นเริ่มต้นมาตรฐาน, ดำสนิทคลาสสิก',
     fit: 'คนที่เน้นความเป็นส่วนตัวในงบประหยัด',

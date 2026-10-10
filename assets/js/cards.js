@@ -22,6 +22,11 @@
   /* ค่าสีถูกยัดลง inline style จึงต้องกรองก่อน ไม่ปล่อยสตริงอิสระผ่าน */
   function hex(v) { return /^#[0-9a-f]{3,8}$/i.test(String(v)) ? String(v) : '#666666'; }
 
+  /* path รูปก็ลงไปอยู่ใน src จึงต้องกรองด้วย allow-list เหมือนกัน */
+  function img(v) {
+    return /^assets\/img\/[\w.-]+\.(jpg|jpeg|png|webp)$/i.test(String(v)) ? String(v) : '';
+  }
+
   /* เลือกสีตัวอักษรบนแผ่นจากความสว่างจริงของสีแบรนด์ ไม่ฮาร์ดโค้ดรายซีรีส์
      ถ้าลูกค้าเปลี่ยนสีในตารางเมื่อไร ตัวอักษรจะพลิกตามเอง
      จุดตัด .1791 คือจุดที่ตัวอักษรดำกับขาวให้ contrast เท่ากันพอดี */
@@ -48,6 +53,7 @@
       title: s.name.indexOf('VIC ') === 0 ? s.name : 'VIC ' + s.name,
       brand: brand,
       ink: inkOn(brand),         /* สีตัวอักษรบนแผ่น พลิกตามความสว่างของสีแบรนด์ */
+      photo: img(c.photo),
       eyebrow: s.badge,          /* ใช้ของเดิมจาก SERIES ไม่สร้างซ้ำ */
       lead: lead,
       best: !!c.best,
@@ -70,6 +76,9 @@
   function build() {
     track.innerHTML = ITEMS.map(function (it, i) {
       return '<li class="cf-card" data-i="' + i + '" data-mag="3" style="--brand:' + it.brand + ';--ink:' + it.ink + '">' +
+        (it.photo
+          ? '<img class="cf-photo" src="' + esc(it.photo) + '" alt="" loading="lazy" decoding="async">'
+          : '') +
         '<button type="button" class="cf-pick" data-go="' + i + '" aria-label="ดูซีรีส์ ' + esc(it.title) + '"></button>' +
         '<div class="cf-body">' +
           /* แถวเดียว: กรอบคำจำกัดความชิดซ้าย ป้ายชิดขวา
@@ -185,6 +194,13 @@
       if (!btn) { return; }
       if (Math.abs(drag.moved) > 8) { return; }   /* ลากอยู่ ไม่ใช่คลิก */
       go(Number(btn.dataset.go));
+    });
+
+    /* ปุ่มลูกศรในหัวเรื่อง — ใช้ go() ตัวเดียวกับ dot/คีย์บอร์ด ไม่สร้างทางเดินใหม่ */
+    document.addEventListener('click', function (ev) {
+      var nav = ev.target.closest('[data-nav]');
+      if (!nav) { return; }
+      go(state.active + (nav.dataset.nav === 'next' ? 1 : -1));
     });
 
     function keyNav(ev) {
